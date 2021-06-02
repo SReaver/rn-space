@@ -5,7 +5,7 @@ import { MainScreen } from './src/Screens/MainScreen';
 import { DetailsScreen } from './src/Screens/DetailsScreen';
 import AppLoading from 'expo-app-loading';
 import { useFonts, Montserrat_700Bold, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
-import {SpaceProvider} from './src/context/context';
+import { SpaceProvider } from './src/context/context';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +24,7 @@ export default () => {
   return (
     <SpaceProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home"  headerMode="none">
+        <Stack.Navigator initialRouteName="Main" headerMode="none">
           <Stack.Screen name="Main" component={MainScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
         </Stack.Navigator>

@@ -13,3 +13,11 @@ export interface ISpaceContext {
     space: ISpace,
     setSpace: (space: ISpace) => void
 }
+
+export interface ICard {
+    item: ISpace,
+    style: {
+        marginLeft?: number,
+        marginRight?: number
+    }
+}

@@ -1,23 +1,23 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
-import {useNavigation} from '@react-navigation/native'
-import {SpaceContext} from '../context/context';
+import { useNavigation } from '@react-navigation/native'
+import { SpaceContext } from '../context/context';
 
 export const DetailsScreen = () => {
     const navigation = useNavigation()
-    const {space}=useContext(SpaceContext);
+    const { space } = useContext(SpaceContext);
 
     return (
         <View style={styles.details}>
             <View style={styles.picture}>
                 <Image
-                    style={{width: '100%', height: '100%', resizeMode: 'cover'}}
-                    source={{uri: space!.url}}
+                    style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
+                    source={{ uri: space!.url }}
                 />
-                 <TouchableOpacity
+                <TouchableOpacity
                     style={styles.back}
-                    onPress={navigation.goBack} 
-                    >
+                    onPress={navigation.goBack}
+                >
                     <Text style={styles.btnText}>Back</Text>
                 </TouchableOpacity>
             </View>
@@ -30,7 +30,7 @@ export const DetailsScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    details:{
+    details: {
         flex: 1
     },
     picture: {
@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         lineHeight: 22
     },
-    info: { 
+    info: {
         marginTop: 38,
         marginBottom: 30,
         marginHorizontal: 30
     },
-    title:{
+    title: {
         marginBottom: 30,
         fontFamily: 'Montserrat_700Bold',
         fontStyle: 'normal',
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         lineHeight: 37,
         color: '#000'
     },
-    description:{
+    description: {
         fontFamily: 'Montserrat_400Regular',
         fontStyle: 'normal',
         fontWeight: 'normal',

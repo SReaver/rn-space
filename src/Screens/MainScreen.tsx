@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -14,7 +14,7 @@ import { ISpace } from '../interfaces';
 import { Card } from '../components/Card';
 
 // uncomment for offline use
-// import data from '../data';
+import data from '../data';
 
 export const MainScreen = () => {
   const windowHeight = useWindowDimensions().height;
@@ -23,35 +23,35 @@ export const MainScreen = () => {
   const [error, setError] = useState<string>('');
 
   // uncomment for offline use
-  // useEffect(()=>{
-  //   setPlanets(data);
-  // },[])
-
-  useEffect((): void => {
-    setError('');
-    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=10')
-      .then(res => {
-        if (!res.ok) {
-          setError('Network error');
-          throw new Error('Network error')
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then((res: ISpace[]) => {
-        setPlanets(res);
-      })
-      .catch(console.error)
+  useEffect(() => {
+    setPlanets(data);
   }, [])
 
-  const renderItem = ({ item, index }: { item: ISpace, index: number }) => {
+  // useEffect((): void => {
+  //   setError('');
+  //   fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=10')
+  //     .then(res => {
+  //       if (!res.ok) {
+  //         setError('Network error');
+  //         throw new Error('Network error')
+  //       }
+  //       return res;
+  //     })
+  //     .then(res => res.json())
+  //     .then((res: ISpace[]) => {
+  //       setPlanets(res);
+  //     })
+  //     .catch(console.error)
+  // }, [])
+
+  const renderItem = useCallback(({ item, index }: { item: ISpace, index: number }) => {
     let cardStyle = {}
     if (index === 0) cardStyle = { ...cardStyle, ...styles.first }
     if (index === planets.length - 1) cardStyle = { ...cardStyle, ...styles.last }
     return <Card item={item} style={cardStyle} />;
-  };
+  }, [inputState, planets]);
 
-  const filtered = () => planets.filter(planet => planet.title.toLowerCase().includes(inputState.toLowerCase()));
+  const filtered = useMemo(() => planets.filter(planet => planet.title.toLowerCase().includes(inputState.toLowerCase())), [inputState, planets]);
 
   return (
     <SafeAreaView style={[styles.main, { minHeight: Math.round(windowHeight) }]}>
@@ -69,13 +69,13 @@ export const MainScreen = () => {
           <Text style={styles.subtitle}>Big Space</Text>
           <Text style={styles.cardsHeader}>My space photo</Text>
         </View>
-        {filtered().length === 0 && !error && <Text style={styles.nothing}>Nothing was found</Text>}
+        {filtered.length === 0 && !error && <Text style={styles.nothing}>Nothing was found</Text>}
         <Text style={styles.error}>{error}</Text>
       </View>
 
       <View style={styles.cards}>
         <FlatList
-          data={filtered()}
+          data={filtered}
           renderItem={renderItem}
           keyExtractor={item => item.url}
           horizontal={true}

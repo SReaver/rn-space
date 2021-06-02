@@ -1,25 +1,20 @@
-import React, {useContext} from 'react';
-import { SpaceContext} from '../context/context';
+import React, { useContext, FC } from 'react';
+import { SpaceContext } from '../context/context';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {useNavigation} from '@react-navigation/native'
-import { ISpace } from '../interfaces';
+import { useNavigation } from '@react-navigation/native'
+import { ICard } from '../interfaces';
 
-type styleProps = {
-    marginLeft?: number,
-    marginRight?: number
-}
-
-export const Card = ({ item, style }: { item: ISpace, style: styleProps }) => {
+export const Card: FC<ICard> = ({ item, style }) => {
     const navigation = useNavigation()
-    const {setSpace} = useContext(SpaceContext);
+    const { setSpace } = useContext(SpaceContext);
     const onPress = () => {
-            setSpace!(item);
-            navigation.navigate('Details')
+        setSpace!(item);
+        navigation.navigate('Details')
     }
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={{...style, ...styles.container}}
+            style={{ ...style, ...styles.container }}
         >
             <Image source={{ uri: item.url }}
                 style={styles.image}
@@ -28,7 +23,7 @@ export const Card = ({ item, style }: { item: ISpace, style: styleProps }) => {
             >{item.title}</Text>
         </TouchableOpacity>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
